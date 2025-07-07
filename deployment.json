@@ -1,0 +1,43 @@
+{
+  "name": "student-collaboration-hub-deployment",
+  "version": "1.0.0",
+  "description": "Deployment configuration for Student Collaboration Hub",
+  "deployment": {
+    "frontend": {
+      "platform": "netlify",
+      "buildCommand": "npm run build",
+      "publishDirectory": "dist",
+      "environmentVariables": {
+        "VITE_API_URL": "https://your-backend-url.railway.app/api"
+      }
+    },
+    "backend": {
+      "platform": "railway",
+      "startCommand": "npm start",
+      "environmentVariables": {
+        "NODE_ENV": "production",
+        "PORT": "5000",
+        "MONGODB_URI": "mongodb+srv://...",
+        "JWT_SECRET": "..."
+      }
+    },
+    "database": {
+      "platform": "mongodb-atlas",
+      "tier": "M0 (Free)",
+      "region": "auto"
+    }
+  },
+  "domains": {
+    "frontend": "https://student-hub.netlify.app",
+    "backend": "https://student-hub-api.railway.app",
+    "database": "cluster0.xxxxx.mongodb.net"
+  },
+  "cost": {
+    "total": "$0/month",
+    "breakdown": {
+      "frontend": "$0 (Netlify free tier)",
+      "backend": "$0 (Railway $5 monthly credit)",
+      "database": "$0 (MongoDB Atlas free tier)"
+    }
+  }
+}
