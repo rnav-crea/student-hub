@@ -50,18 +50,37 @@
    - **Environment**: `Node`
    - **Region**: Choose closest to you
    - **Branch**: `main`
-   - **Build Command**: `npm install`
+   - **Build Command**: `npm install` (NOT `npm run build`)
    - **Start Command**: `npm start`
+   
+   **Advanced Settings:**
+   - **Health Check Path**: `/api/health` (leave default if you prefer)
+   - **Pre-Deploy Command**: (leave empty)
+   - **Auto-Deploy**: ✅ On Commit (enabled)
+   - **Build Filters**: (leave empty for now)
 
 4. **Add Environment Variables**:
-   Click "Advanced" → "Add Environment Variable":
-   ```
-   PORT=5000
-   NODE_ENV=production
-   MONGODB_URI=mongodb+srv://student-hub-user:yourpassword@student-hub-cluster.xxxxx.mongodb.net/student-collaboration-hub?retryWrites=true&w=majority
-   JWT_SECRET=your_super_secure_jwt_secret_minimum_32_characters_long
-   FRONTEND_URL=https://your-app-name.netlify.app
-   ```
+   In the "Environment Variables" section, click "Add Environment Variable" for each:
+   
+   **Variable 1:**
+   - NAME_OF_VARIABLE: `PORT`
+   - value: `5000`
+   
+   **Variable 2:**
+   - NAME_OF_VARIABLE: `NODE_ENV`
+   - value: `production`
+   
+   **Variable 3:**
+   - NAME_OF_VARIABLE: `MONGODB_URI`
+   - value: `mongodb+srv://student-hub-user:yourpassword@student-hub-cluster.xxxxx.mongodb.net/student-collaboration-hub?retryWrites=true&w=majority`
+   
+   **Variable 4:**
+   - NAME_OF_VARIABLE: `JWT_SECRET`
+   - value: `your_super_secure_jwt_secret_minimum_32_characters_long`
+   
+   **Variable 5:**
+   - NAME_OF_VARIABLE: `FRONTEND_URL`
+   - value: `https://your-app-name.netlify.app`
 
 5. **Deploy**:
    - Click **"Create Web Service"**
@@ -138,6 +157,8 @@ After deployment, you'll have:
 - Check Render logs: Dashboard → Your Service → Logs
 - Verify environment variables are set correctly
 - Test API endpoints: `https://your-backend-url.onrender.com/api/health`
+- **Health Check**: Make sure your backend responds to the health check path
+- **Cold Starts**: First request after 15min idle may take 30+ seconds
 
 ### Frontend Issues:
 - Check browser console for errors
