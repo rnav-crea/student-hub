@@ -1,9 +1,7 @@
 import axios from 'axios';
 
 // API Configuration
-const API_BASE_URL = import.meta.env.PROD 
-  ? 'https://student-hub-1-jp67.onrender.com/api'  // Your actual Render URL
-  : 'http://localhost:5000/api';  // Development backend URL
+const API_BASE_URL = 'https://student-hub-1-jp67.onrender.com/api';  // Force production URL for testing
 
 // Create axios instance with base configuration
 const apiClient = axios.create({
@@ -57,7 +55,7 @@ const saveToPostManager = (posts) => {
 };
 
 // Environment-based mode switching
-const MOCK_MODE = !import.meta.env.PROD; // Use real API in production, mock in development
+const MOCK_MODE = false; // Force real API for testing
 
 // Initialize mock data with localStorage persistence
 const initializeMockData = () => {
@@ -237,41 +235,6 @@ const mockAPI = {
 };
 
 // Create axios instance with base configuration
-const api = MOCK_MODE ? mockAPI : axios.create({
-  baseURL: 'http://localhost:5000/api', // Update this to match your backend URL
-  timeout: 10000,
-  headers: {
-    'Content-Type': 'application/json',
-  },
-});
-
-// Request interceptor to add auth token (only for real API)
-if (!MOCK_MODE) {
-  api.interceptors.request.use(
-    (config) => {
-      const token = localStorage.getItem('token');
-      if (token) {
-        config.headers.Authorization = `Bearer ${token}`;
-      }
-      return config;
-    },
-    (error) => {
-      return Promise.reject(error);
-    }
-  );
-
-  // Response interceptor to handle auth errors (only for real API)
-  api.interceptors.response.use(
-    (response) => response,
-    (error) => {
-      if (error.response?.status === 401) {
-        localStorage.removeItem('token');
-        localStorage.removeItem('user');
-        window.location.href = '/login';
-      }
-      return Promise.reject(error);
-    }
-  );
-}
+const api = MOCK_MODE ? mockAPI : apiClient;
 
 export default api;
