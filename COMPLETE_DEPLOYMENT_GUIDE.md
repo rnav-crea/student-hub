@@ -46,7 +46,7 @@
 
 3. **Configure Render Settings**:
    - **Name**: `student-hub-backend`
-   - **Root Directory**: `server`
+   - **Root Directory**: `server` ⚠️ **IMPORTANT: Must be exactly "server"**
    - **Environment**: `Node`
    - **Region**: Choose closest to you
    - **Branch**: `main`
@@ -98,7 +98,7 @@
    - Replace the production URL with your actual Render URL:
    ```javascript
    const API_BASE_URL = import.meta.env.PROD 
-     ? 'https://student-hub-backend.onrender.com/api'  // Your actual Render URL
+     ? 'https://student-hub-1-jp67.onrender.com/api'  // Your actual Render URL
      : 'http://localhost:5000/api';
    ```
 
@@ -131,8 +131,26 @@
 ### ✅ STEP 5: Final Configuration
 
 1. **Update CORS in Backend**:
-   - Once you get your Netlify URL (e.g., `https://amazing-name-123456.netlify.app`)
-   - Update the `FRONTEND_URL` environment variable in Render
+   Once you get your Netlify URL (e.g., `https://amazing-name-123456.netlify.app`), update the `FRONTEND_URL` environment variable in Render:
+
+   **Step-by-Step in Render:**
+   1. Go to **Render Dashboard**: https://dashboard.render.com/
+   2. Click on your **backend service** (`student-hub-backend`)
+   3. Click **"Environment"** tab in the left sidebar
+   4. Find the **`FRONTEND_URL`** variable in the list
+   5. Click the **"Edit"** button (pencil icon) next to `FRONTEND_URL`
+   6. **Replace the value** with your actual Netlify URL:
+      - **From**: `https://your-app-name.netlify.app`
+      - **To**: `https://amazing-name-123456.netlify.app` (your actual URL)
+   7. Click **"Save Changes"**
+   8. **Redeploy**: Click **"Manual Deploy"** → **"Deploy latest commit"**
+   9. Wait for deployment to complete (2-3 minutes)
+
+   **Alternative Method:**
+   - You can also delete the old variable and add a new one:
+   - Click **"Add Environment Variable"**
+   - NAME_OF_VARIABLE: `FRONTEND_URL`
+   - value: `https://your-actual-netlify-url.netlify.app`
 
 2. **Test Your App**:
    - Visit your Netlify URL
@@ -153,12 +171,22 @@ After deployment, you'll have:
 
 ## 🔧 Troubleshooting
 
+### Registration Failed Issues:
+- **"Registration failed"**: Usually indicates backend connectivity issues
+- **Check MongoDB**: Verify MongoDB Atlas is connected and accessible
+- **Check Environment Variables**: Ensure all variables are set correctly in Render
+- **Check Render Logs**: Look for connection errors or missing variables
+- **Test Health Endpoint**: Visit `https://your-backend-url.onrender.com/api/health`
+- **Cold Start**: If backend was sleeping, first request may take 30+ seconds
+
 ### Backend Issues:
 - Check Render logs: Dashboard → Your Service → Logs
 - Verify environment variables are set correctly
 - Test API endpoints: `https://your-backend-url.onrender.com/api/health`
 - **Health Check**: Make sure your backend responds to the health check path
 - **Cold Starts**: First request after 15min idle may take 30+ seconds
+- **"Missing script: start"**: Check that Root Directory is set to `server`
+- **Wrong package.json**: Render should use `server/package.json`, not root `package.json`
 
 ### Frontend Issues:
 - Check browser console for errors

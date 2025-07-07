@@ -2,7 +2,7 @@ import axios from 'axios';
 
 // API Configuration
 const API_BASE_URL = import.meta.env.PROD 
-  ? 'https://student-hub-backend.onrender.com/api'  // Production backend URL (update this after deployment)
+  ? 'https://student-hub-1-jp67.onrender.com/api'  // Your actual Render URL
   : 'http://localhost:5000/api';  // Development backend URL
 
 // Create axios instance with base configuration

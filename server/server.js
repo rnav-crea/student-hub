@@ -15,7 +15,7 @@ const app = express();
 // Middleware
 app.use(cors({
   origin: process.env.NODE_ENV === 'production' 
-    ? ['https://your-frontend-domain.netlify.app', 'https://your-frontend-domain.vercel.app']
+    ? [process.env.FRONTEND_URL, 'https://your-frontend-domain.vercel.app']
     : ['http://localhost:5173', 'http://localhost:5174', 'http://localhost:5175', 'http://localhost:5176'],
   credentials: true
 }));
@@ -31,7 +31,11 @@ app.get('/api/health', (req, res) => {
     message: 'Server is running!',
     status: 'online',
     database: isConnected ? 'connected' : 'disconnected',
-    timestamp: new Date().toISOString()
+    timestamp: new Date().toISOString(),
+    port: process.env.PORT || 'not set',
+    node_env: process.env.NODE_ENV || 'not set',
+    mongodb_uri: process.env.MONGODB_URI ? 'set' : 'not set',
+    jwt_secret: process.env.JWT_SECRET ? 'set' : 'not set'
   });
 });
 
@@ -75,6 +79,6 @@ app.use('*', (req, res) => {
 
 const PORT = process.env.PORT || 5000;
 
-app.listen(PORT, () => {
+app.listen(PORT, '0.0.0.0', () => {
   console.log(`Server is running on port ${PORT}`);
 });
