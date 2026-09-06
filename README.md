@@ -80,8 +80,6 @@ src/
    npm run dev
    ```
 
-3. **Open your browser**: [http://localhost:5174](http://localhost:5174)
-
 4. **Test the features**:
    - Register with any email/password
    - Browse posts and use search
